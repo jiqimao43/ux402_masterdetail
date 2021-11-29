@@ -1,0 +1,154 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "ux402_masterdetail",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponent",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"RMTSAMPLEFLIGHT_2": {
+				"uri": "/sap/opu/odata/iwbep/RMTSAMPLEFLIGHT_2/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_belize"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "ux402_masterdetail.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "ux402_masterdetail.i18n.i18n"
+				}
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "RMTSAMPLEFLIGHT_2",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "ux402_masterdetail.view",
+				"controlAggregation": "detailPages",
+				"controlId": "idApp",
+				"bypassed": {
+					"target": [
+						"master",
+						"notFound"
+					]
+				}
+			},
+			"routes": [{
+				"name": "master",
+				"pattern": "",
+				"titleTarget": "",
+				"greedy": false,
+				"target": [
+					"master",
+					"carrierdetails"
+				]
+			}, {
+				"name": "carrierdetails",
+				"pattern": "Carriers/{objectId}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": [
+					"master",
+					"carrierdetails"
+				]
+			}],
+			"targets": {
+				"master": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "Master",
+					"viewLevel": 1,
+					"controlAggregation": "masterPages",
+					"viewId": "master"
+				},
+				"carrierdetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "Detail",
+					"viewLevel": 2,
+					"viewId": "carrierdetails"
+				},
+				"notFound": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				},
+				"detailObjectNotFound": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "DetailObjectNotFound",
+					"viewId": "detailObjectNotFound"
+				}
+			}
+		}
+	}
+}
